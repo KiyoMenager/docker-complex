@@ -1,0 +1,25 @@
+sudo: required
+
+language: generic
+
+services:
+  - docker 
+
+before_install:
+  - docker build -t kiyoakim/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true kiyoakim/react-test npm run test
+
+after_success:
+  - docker build -t kiyoakim/multi-client ./client
+  - docker build -t kiyoakim/multi-nginx ./nginx
+  - docker build -t kiyoakim/multi-server ./server
+  - docker build -t kiyoakim/multi-worker ./worker
+  # login to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME"  --password-stdin
+  # push our build images to docker hub
+  - docker push kiyoakim/multi-client 
+  - docker push kiyoakim/multi-nginx
+  - docker push kiyoakim/multi-server 
+  - docker push kiyoakim/multi-worker 
