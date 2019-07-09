@@ -5,19 +5,19 @@
             "name": "client",
             "image": "kiyoakim/multi-client",
             "hostname": "client",
-            "essential": false
+            "essential": false,
         },
         {
             "name": "server",
             "image": "kiyoakim/multi-server",
             "hotname": "api",
-            "essential": false
+            "essential": false,
         },
         {
             "name": "worker",
             "image": "kiyoakim/multi-worker",
             "hostname": "worker",
-            "essential": false
+            "essential": false,
         },
         {
             "name": "nginx",
@@ -32,7 +32,7 @@
             "links": [
                 "client",
                 "server"
-            ]
+            ],
         }
     ]
 }
